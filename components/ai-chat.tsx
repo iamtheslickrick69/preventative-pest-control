@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils"
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
-import { X, Send, User, Phone, Calendar, AlertCircle } from "lucide-react"
+import { X, Send, User, Phone, Calendar, AlertCircle, GripVertical } from "lucide-react"
 import { DetailedSpiderIcon } from "@/components/icons/detailed-spider-icon"
 import { MessageRenderer } from "@/components/message-renderer"
 import { ScheduleQuestionnaire, type ScheduleData } from "@/components/schedule-questionnaire"
@@ -395,6 +395,9 @@ TODAY IS DECEMBER 18, 2025 - It's WINTER = RODENT SEASON! 🐭`
 export function AIChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [showSchedule, setShowSchedule] = useState(false)
+  const [width, setWidth] = useState(380)
+  const [height, setHeight] = useState(500)
+  const [isResizing, setIsResizing] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
@@ -423,6 +426,46 @@ export function AIChatWidget() {
       scrollToBottom()
     }
   }, [messages])
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing) return
+
+      const newWidth = Math.max(300, Math.min(600, window.innerWidth - e.clientX - 24))
+      const newHeight = Math.max(400, Math.min(800, window.innerHeight - e.clientY - 24))
+
+      setWidth(newWidth)
+      setHeight(newHeight)
+    }
+
+    const handleMouseUp = () => {
+      setIsResizing(false)
+    }
+
+    if (isResizing) {
+      document.addEventListener("mousemove", handleMouseMove)
+      document.addEventListener("mouseup", handleMouseUp)
+      document.body.style.cursor = "nwse-resize"
+      document.body.style.userSelect = "none"
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove)
+      document.removeEventListener("mouseup", handleMouseUp)
+      document.body.style.cursor = ""
+      document.body.style.userSelect = ""
+    }
+  }, [isResizing])
+
+  // Expose openChat function to window for header to use
+  useEffect(() => {
+    (window as any).openPestChat = () => {
+      setIsOpen(true)
+      setTimeout(() => {
+        document.getElementById('pest-chat-widget')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }, 100)
+    }
+  }, [])
 
   const handleScheduleSubmit = async (data: ScheduleData) => {
     setShowSchedule(false)
@@ -552,8 +595,23 @@ export function AIChatWidget() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-48px)] rounded-2xl border-2 border-black/20 bg-background shadow-[0_0_50px_rgba(0,0,0,0.3)] overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
+        <div
+          id="pest-chat-widget"
+          className="fixed bottom-6 right-6 z-50 rounded-2xl border-2 border-black/20 bg-background shadow-[0_0_50px_rgba(0,0,0,0.3)] overflow-hidden animate-in slide-in-from-bottom-5 duration-300"
+          style={{ width: `${width}px`, maxWidth: 'calc(100vw - 48px)' }}
+        >
           <div className="bg-black p-4 flex items-center justify-between relative overflow-hidden">
+            {/* Resize Handle */}
+            <button
+              onMouseDown={(e) => {
+                e.preventDefault()
+                setIsResizing(true)
+              }}
+              className="absolute top-2 left-2 z-20 cursor-nwse-resize p-1 hover:bg-white/10 rounded transition-colors group"
+              aria-label="Resize chat"
+            >
+              <GripVertical className="h-4 w-4 text-white/50 group-hover:text-white/80 transition-colors" />
+            </button>
             {/* Subtle animated background pattern */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,87,34,0.3),transparent_50%)] animate-pulse"></div>
@@ -576,7 +634,10 @@ export function AIChatWidget() {
           </div>
 
           {/* Messages */}
-          <div className="h-[350px] overflow-y-auto p-4 space-y-4 bg-muted/30">
+          <div
+            className="overflow-y-auto p-4 space-y-4 bg-muted/30"
+            style={{ height: `${height - 250}px` }}
+          >
             {messages.map((message) => (
               <div key={message.id} className={cn("flex gap-3", message.role === "user" && "flex-row-reverse")}>
                 <div

@@ -1,4 +1,4 @@
-import { ArrowRight, Shield, RefreshCw, DollarSign, Star, Phone, CheckCircle, MapPin } from "lucide-react"
+import { ArrowRight, Shield, RefreshCw, DollarSign, Star, Phone, CheckCircle, MapPin, Leaf, Building2, BadgeCheck } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { Header } from "@/components/header"
@@ -6,6 +6,8 @@ import { Footer } from "@/components/footer"
 import { ReviewCarousel } from "@/components/review-carousel"
 import { PEST_IMAGES } from "@/lib/pest-images"
 import { AnimatedSection } from "@/components/ui/animated-section"
+import { Counter } from "@/components/counter"
+import { ParallaxVideo } from "@/components/parallax-video"
 
 const services = [
   {
@@ -59,10 +61,10 @@ const services = [
 ]
 
 const stats = [
-  { value: "25+", label: "Years Experience" },
-  { value: "965", label: "5-Star Reviews" },
-  { value: "100%", label: "Satisfaction Guaranteed" },
-  { value: "24/7", label: "Emergency Response" },
+  { value: "25+", label: "Years Experience", numericValue: 25, suffix: "+" },
+  { value: "965", label: "5-Star Reviews", numericValue: 965, suffix: "" },
+  { value: "100%", label: "Satisfaction Guaranteed", numericValue: 100, suffix: "%" },
+  { value: "24/7", label: "Emergency Response", numericValue: 24, suffix: "/7" },
 ]
 
 const trustSignals = [
@@ -94,79 +96,78 @@ export default function HomePage() {
       <Header />
 
       <main className="flex-1">
-        <section className="relative overflow-hidden pt-16 pb-20 md:pt-24 md:pb-32">
-          {/* Video Background */}
+        <section className="relative overflow-hidden pt-28 pb-24 md:pt-36 md:pb-32">
+          {/* Video Background with Parallax */}
           <div className="absolute inset-0">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              poster="/images/stgeorge-hero.jpg"
+            <ParallaxVideo
+              src="https://pub-7824dae2ffd24193b52760c54972be1d.r2.dev/000spidey.mp4"
               className="absolute inset-0 h-full w-full object-cover"
-            >
-              <source src="https://pub-7824dae2ffd24193b52760c54972be1d.r2.dev/000spidey.mp4" type="video/mp4" />
-            </video>
+            />
             {/* Dark overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
-          </div>
-
-          {/* Logo Banner - Top Right Corner */}
-          <div className="absolute top-6 right-6 z-20 hidden lg:block">
-            <div className="rounded-xl bg-white px-8 py-2 shadow-2xl border border-gray-100">
-              <Image
-                src="/images/officialogoprevent.png"
-                alt="Preventive Pest Control Logo"
-                width={300}
-                height={100}
-                className="w-64 h-auto"
-                priority
-              />
-            </div>
+            <div className="absolute inset-0 bg-gradient-to-r from-background/75 via-background/55 to-transparent md:from-background/70 md:via-background/50" />
           </div>
 
           <div className="container relative mx-auto px-4 md:px-6">
             <div className="max-w-3xl space-y-6">
-              {/* Badge */}
-              <AnimatedSection animation="fade-up" delay={0}>
-                <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-foreground backdrop-blur-sm">
-                  <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse" />
-                  Serving Southern Utah for 25+ Years
-                </div>
-              </AnimatedSection>
+              {/* Badges */}
+              <div className="flex flex-wrap items-center gap-3">
+                <AnimatedSection animation="fade-up" delay={0}>
+                  <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-sm sm:text-base font-semibold text-foreground backdrop-blur-sm shadow-lg sm:px-5">
+                    <span className="flex h-2.5 w-2.5 rounded-full bg-primary mr-2 animate-pulse" />
+                    <span className="whitespace-nowrap">Serving Southern Utah for 25+ Years</span>
+                  </div>
+                </AnimatedSection>
+                <AnimatedSection animation="fade-up" delay={100}>
+                  <div className="inline-flex items-center rounded-full border border-orange-500/20 bg-orange-500/5 px-4 py-2 text-sm sm:text-base font-semibold text-foreground backdrop-blur-sm shadow-lg sm:px-5">
+                    <Star className="h-4 w-4 fill-orange-500 text-orange-500 mr-1.5 shrink-0" />
+                    <span className="font-bold text-orange-600">4.9</span>
+                    <span className="mx-1 text-muted-foreground">•</span>
+                    <span className="text-muted-foreground whitespace-nowrap">965+ Reviews</span>
+                  </div>
+                </AnimatedSection>
+              </div>
 
               {/* Headline */}
-              <AnimatedSection animation="fade-up" delay={100}>
-                <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-5xl">
-                  <span className="text-foreground">St. George&apos;s Top</span>
+              <AnimatedSection animation="fade-up" delay={200}>
+                <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl leading-tight">
+                  <span className="text-foreground">St. George&apos;s Top-Rated</span>
                   <br />
-                  <span className="text-primary">Pest Control</span>
+                  <span className="text-primary font-black">Pest Control</span>
                   <br />
                   <span className="text-foreground">Professionals</span>
                 </h1>
               </AnimatedSection>
 
               {/* Subheadline */}
-              <AnimatedSection animation="fade-up" delay={200}>
-                <p className="text-lg text-muted-foreground md:text-xl max-w-2xl leading-relaxed">
-                  Protecting your family&apos;s health from scorpions, spiders, rodents, and more. Experience a
-                  pest-free, stress-free space with our preventive approach.
+              <AnimatedSection animation="fade-up" delay={300}>
+                <p className="text-xl text-muted-foreground md:text-2xl max-w-2xl leading-relaxed font-medium">
+                  Same-day scorpion & spider removal. 90-day protection guarantee. Serving 10,000+ Southern Utah families since 1998.
                 </p>
               </AnimatedSection>
 
               {/* CTAs */}
-              <AnimatedSection animation="fade-up" delay={300}>
+              <AnimatedSection animation="fade-up" delay={400}>
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <Link
-                    href="/contact"
-                    className="btn-press inline-flex h-14 items-center justify-center gap-2 rounded-2xl bg-accent px-8 text-base font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-red-700 hover:shadow-xl hover:shadow-red-700/30 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  >
-                    Get $39.95 First Service
-                    <ArrowRight className="h-5 w-5" />
-                  </Link>
+                  <div className="relative w-full sm:w-auto sm:inline-block">
+                    {/* Pulsing rings behind button */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 opacity-40 blur-xl animate-pulse"></div>
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 opacity-20 blur-2xl animate-pulse" style={{ animationDelay: "0.5s" }}></div>
+
+                    <Link
+                      href="/contact"
+                      className="btn-press btn-shimmer group relative inline-flex h-14 sm:h-16 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 bg-[length:200%_auto] px-6 sm:px-10 text-base sm:text-lg font-bold text-white transition-all hover:bg-[position:100%] hover:-translate-y-1 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 animate-premium-glow w-full sm:w-auto"
+                      style={{ animation: "premium-glow 2.5s ease-in-out infinite, rotate-gradient 4s ease infinite" }}
+                    >
+                      <span className="relative z-10 flex items-center gap-1.5 sm:gap-2 justify-center">
+                        <span className="whitespace-nowrap">Get $39.95 First Service</span>
+                        <span className="hidden sm:inline text-orange-100 text-sm font-normal">(Save $60)</span>
+                        <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform shrink-0" />
+                      </span>
+                    </Link>
+                  </div>
                   <a
                     href="tel:4352566391"
-                    className="btn-press inline-flex h-14 items-center justify-center gap-2 rounded-2xl border-2 border-primary bg-primary/5 px-8 text-base font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="btn-press inline-flex h-14 sm:h-16 w-full sm:w-auto items-center justify-center gap-2 rounded-2xl border-2 border-primary bg-primary/5 px-6 sm:px-8 text-base sm:text-lg font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground hover:scale-105 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <Phone className="h-5 w-5" />
                     Call (435) 256-6391
@@ -175,19 +176,19 @@ export default function HomePage() {
               </AnimatedSection>
 
               {/* Quick Trust */}
-              <AnimatedSection animation="fade-up" delay={400}>
-                <div className="flex flex-wrap items-center gap-6 pt-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-primary" />
-                    Licensed & Insured
+              <AnimatedSection animation="fade-up" delay={500}>
+                <div className="flex flex-wrap items-center gap-3 pt-4">
+                  <div className="flex items-center gap-2.5 px-3 py-2 rounded-full bg-primary/5 border border-primary/10 sm:px-4">
+                    <BadgeCheck className="h-4 w-4 sm:h-5 sm:w-5 text-primary shrink-0" />
+                    <span className="text-xs sm:text-sm font-semibold text-foreground whitespace-nowrap">Licensed & Insured</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-primary" />
-                    Locally Owned
+                  <div className="flex items-center gap-2.5 px-3 py-2 rounded-full bg-primary/5 border border-primary/10 sm:px-4">
+                    <Building2 className="h-4 w-4 sm:h-5 sm:w-5 text-primary shrink-0" />
+                    <span className="text-xs sm:text-sm font-semibold text-foreground whitespace-nowrap">Locally Owned</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-primary" />
-                    Pet & Child Safe
+                  <div className="flex items-center gap-2.5 px-3 py-2 rounded-full bg-primary/5 border border-primary/10 sm:px-4">
+                    <Leaf className="h-4 w-4 sm:h-5 sm:w-5 text-primary shrink-0" />
+                    <span className="text-xs sm:text-sm font-semibold text-foreground whitespace-nowrap">Pet & Child Safe</span>
                   </div>
                 </div>
               </AnimatedSection>
@@ -196,13 +197,17 @@ export default function HomePage() {
         </section>
 
         {/* Stats Section */}
-        <section className="border-y border-primary/10 bg-primary/5 py-10">
+        <section className="border-y border-primary/10 bg-primary/5 py-12 md:py-16">
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-2 gap-8 md:grid-cols-4 stagger-fade-in">
               {stats.map((stat) => (
-                <div key={stat.label} className="flex flex-col items-center justify-center space-y-1 text-center">
-                  <div className="text-3xl font-bold text-primary tracking-tight md:text-4xl">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground uppercase tracking-wider">{stat.label}</div>
+                <div key={stat.label} className="flex flex-col items-center justify-center space-y-2 text-center group hover:scale-110 transition-all duration-300 cursor-pointer">
+                  <Counter
+                    end={stat.numericValue}
+                    suffix={stat.suffix}
+                    className="text-4xl font-black text-primary tracking-tight md:text-5xl lg:text-6xl group-hover:text-orange-500 transition-colors duration-300"
+                  />
+                  <div className="text-sm text-muted-foreground uppercase tracking-widest font-semibold group-hover:text-foreground transition-colors">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -433,19 +438,28 @@ export default function HomePage() {
                 money back.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Link
-                  href="/contact"
-                  className="btn-press inline-flex h-14 items-center justify-center gap-2 rounded-2xl bg-accent px-8 text-base font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-red-700 hover:shadow-xl hover:shadow-red-700/30 hover:-translate-y-0.5"
-                >
-                  Schedule Service
-                  <ArrowRight className="h-5 w-5" />
-                </Link>
+                <div className="relative w-full sm:w-auto sm:inline-block">
+                  {/* Pulsing rings behind button */}
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 opacity-40 blur-xl animate-pulse"></div>
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 opacity-20 blur-2xl animate-pulse" style={{ animationDelay: "0.5s" }}></div>
+
+                  <Link
+                    href="/contact"
+                    className="btn-press btn-shimmer group relative inline-flex h-12 sm:h-14 w-full sm:w-auto items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 bg-[length:200%_auto] px-6 sm:px-8 text-sm sm:text-base font-semibold text-white transition-all hover:bg-[position:100%] hover:-translate-y-0.5 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 animate-premium-glow"
+                    style={{ animation: "premium-glow 2.5s ease-in-out infinite, rotate-gradient 4s ease infinite" }}
+                  >
+                    <span className="relative z-10 flex items-center gap-2 justify-center">
+                      Schedule Service
+                      <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform shrink-0" />
+                    </span>
+                  </Link>
+                </div>
                 <a
                   href="tel:4352566391"
-                  className="btn-press inline-flex h-14 items-center justify-center gap-2 rounded-2xl border-2 border-primary-foreground/30 bg-primary-foreground/10 backdrop-blur-sm px-8 text-base font-semibold text-primary-foreground transition-all hover:bg-primary-foreground/20"
+                  className="btn-press inline-flex h-12 sm:h-14 w-full sm:w-auto items-center justify-center gap-2 rounded-2xl border-2 border-primary-foreground/30 bg-primary-foreground/10 backdrop-blur-sm px-6 sm:px-8 text-sm sm:text-base font-semibold text-primary-foreground transition-all hover:bg-primary-foreground/20 hover:scale-105"
                 >
-                  <Phone className="h-5 w-5" />
-                  Call Now: (435) 256-6391
+                  <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
+                  <span className="whitespace-nowrap">Call Now: (435) 256-6391</span>
                 </a>
               </div>
             </AnimatedSection>
