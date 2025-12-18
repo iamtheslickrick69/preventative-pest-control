@@ -193,8 +193,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Form submitted successfully",
-      id: data.id
+      message: "Form submitted successfully"
     })
 
   } catch (error) {
