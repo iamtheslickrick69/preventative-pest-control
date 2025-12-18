@@ -4,10 +4,11 @@ import { Resend } from "resend"
 // Force dynamic rendering to prevent build-time evaluation
 export const dynamic = 'force-dynamic'
 
-const resend = new Resend(process.env.RESEND_API_KEY || "")
-
 export async function POST(request: NextRequest) {
   try {
+    // Initialize Resend with API key from environment variable
+    const resend = new Resend(process.env.RESEND_API_KEY || "")
+
     const data = await request.json()
     const {
       name,
