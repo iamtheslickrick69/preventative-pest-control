@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { ReactElement } from "react"
 
 // Map of keywords to service page URLs
 const SERVICE_LINKS: Record<string, string> = {
@@ -59,7 +60,7 @@ interface MessageRendererProps {
 export function MessageRenderer({ content }: MessageRendererProps) {
   // Parse the content and replace keywords with links
   const parseContent = (text: string) => {
-    const parts: (string | JSX.Element)[] = []
+    const parts: (string | ReactElement)[] = []
     let lastIndex = 0
 
     // Sort keywords by length (longest first) to match longer phrases first
@@ -70,19 +71,20 @@ export function MessageRenderer({ content }: MessageRendererProps) {
 
     for (const keyword of sortedKeywords) {
       const regex = new RegExp(`\\b${keyword}\\b`, "gi")
-      let match
+      let match: RegExpExecArray | null
 
       while ((match = regex.exec(text)) !== null) {
+        const currentMatch = match
         // Check if this position is already matched by a longer keyword
         const overlaps = matches.some(
-          (m) => match.index >= m.index && match.index < m.index + m.length
+          (m) => currentMatch.index >= m.index && currentMatch.index < m.index + m.length
         )
 
         if (!overlaps) {
           matches.push({
-            keyword: match[0],
-            index: match.index,
-            length: match[0].length,
+            keyword: currentMatch[0],
+            index: currentMatch.index,
+            length: currentMatch[0].length,
           })
         }
       }
