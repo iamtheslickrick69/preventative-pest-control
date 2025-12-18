@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
 import { Resend } from "resend"
 
+// Force dynamic rendering to prevent build-time evaluation
+export const dynamic = 'force-dynamic'
+
 // Initialize Resend with API key from environment variable
 const resend = new Resend(process.env.RESEND_API_KEY || "")
 
